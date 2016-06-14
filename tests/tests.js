@@ -81,10 +81,12 @@ describe("synchronous operations", {
 	},
 
 	'log error on exception (this should fail)': function() {
+		this.expectTestToFail();
 		throw new Error("intentional failure");
 	},
 
 	'failed expectation (this should fail)': function() {
+		this.expectTestToFail();
 		this.expect(false, true);
 	},
 
@@ -101,6 +103,7 @@ describe("asynchronous operations", {
 	},
 
 	'asynchronous timeout (this should fail)': function() {
+		this.expectTestToFail();
 		var my = this;
 		setTimeout(function() { my.expect(42); }, 1000);
 	}
@@ -110,6 +113,7 @@ describe("asynchronous operations", {
 describe("node error style", {
 
 	'asynchronous node-style error (this should fail)': function() {
+		this.expectTestToFail();
 		asyncNodeError(this.expect(true));
 	},
 
@@ -128,10 +132,12 @@ describe("promise callback style", {
 	},
 
 	'promises-style failure (this should fail)': function() {
+		this.expectTestToFail();
 		this.expect(failedPromise(2, 2), 4);
 	},
 
 	'promises-style timeout (this should fail)': function() {
+		this.expectTestToFail();
 		this.expect(promiseTimeout(), 42);
 	}
 
@@ -152,6 +158,7 @@ describe("custom timeout higher", {
 describe("custom lower timeout", {
 
 	'custom timeout failure (this should fail)': function() {
+		this.expectTestToFail();
 		(function(callback) {
 			setTimeout(function() {  callback(2); }, 2);
 		}(this.expect(2)));
@@ -162,7 +169,7 @@ describe("custom lower timeout", {
 describe("expections", {
 
 	"pending expectation fails (this should fail)": function() {
-		
+		this.expectTestToFail();
 	}
 
 });
@@ -252,11 +259,13 @@ describe('error expectations, Promises', {
 	},
 
 	"wrong error string returned (this should fail)": function() {
+		this.expectTestToFail();
 		this.expectError(failedPromiseString(), "out of cheese");
 	},
 
 
 	"wrong error object returned (this should fail)": function() {
+		this.expectTestToFail();
 		this.expectError(failedPromise(), "out of cheese");
 	}
 

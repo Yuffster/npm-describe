@@ -74,7 +74,7 @@
 
 	function runTest(fun, callback, options) {
 
-		var done, timer, errorExpected;
+		var done, timer, errorExpected, testFailExpected = false;
 
 		function respond(e) {
 			if (done) return;
@@ -85,6 +85,13 @@
 					e = null;
 				} else {
 					e = new Error("Expected error '"+errorExpected+"' but got "+e);
+				}
+			}
+			if (testFailExpected) {
+				if (e) {
+					e = null;
+				} else {
+					e = new Error("Expected test to fail");
 				}
 			}
 			callback(e);
@@ -100,6 +107,9 @@
 					options.getError = true;
 					errorExpected = b || a;
 					return expect(a, b, respond, options);
+				},
+				expectTestToFail: function() {
+					testFailExpected = true;
 				}
 			});
 		} catch (e) {
